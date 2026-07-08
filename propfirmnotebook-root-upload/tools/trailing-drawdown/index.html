@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trailing Drawdown Calculator | PropFirmNotebook</title>
+  <meta name="description" content="Use this trailing drawdown calculator to estimate your drawdown floor, remaining cushion, and daily loss room.">
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <a class="brand" href="../../index.html">PropFirmNotebook</a>
+      <div class="nav-links"><a href="../index.html">Tools</a><a href="../position-size/index.html">Position Size</a><a href="../daily-loss-limit/index.html">Daily Loss</a></div>
+    </nav>
+  </header>
+  <main class="page">
+    <section class="tool-hero">
+      <p class="eyebrow">Tool 1</p>
+      <h1>Trailing Drawdown Calculator</h1>
+      <p class="lead">Estimate the account floor that can end an evaluation, even when you are profitable overall.</p>
+      <div class="quick-answer">Trailing drawdown is a moving loss limit. As your account reaches new highs, the danger line can move up too. This calculator helps you see the estimated floor, remaining cushion, and a cautious risk amount before you trade.</div>
+    </section>
+
+    <section class="calculator" data-calculator="trailing-drawdown">
+      <h2>Calculator</h2>
+      <form>
+        <div class="form-grid">
+          <label>Starting balance <input name="starting" type="number" value="100000"></label>
+          <label>Highest account value <input name="highest" type="number" value="103000"></label>
+          <label>Current equity <input name="current" type="number" value="101500"></label>
+          <label>Maximum drawdown amount <input name="maxDrawdown" type="number" value="3000"></label>
+          <label>Daily loss limit <input name="dailyLimit" type="number" value="2000"></label>
+          <label>Today's profit or loss <input name="todayPl" type="number" value="-250"></label>
+          <label>Drawdown type <select name="type"><option value="trailing">Trailing</option><option value="static">Static</option></select></label>
+        </div>
+        <div class="button-row"><button type="submit">Calculate</button><button class="secondary" type="reset">Reset</button></div>
+      </form>
+      <div class="results" data-results></div>
+    </section>
+
+    <section class="module-section">
+      <h2>Example Walkthrough</h2>
+      <div class="steps">
+        <div class="step">$100,000 account starts with a $3,000 maximum drawdown.</div>
+        <div class="step">The account reaches $103,000, so the trailing floor may rise to $100,000.</div>
+        <div class="step">If equity drops to or below that floor, the trader may fail the account.</div>
+      </div>
+    </section>
+
+    <section class="module-section">
+      <h2>Common Mistakes</h2>
+      <ul class="checklist">
+        <li>Risking more after a winning streak.</li>
+        <li>Confusing trailing drawdown with static drawdown.</li>
+        <li>Ignoring open trade losses during the day.</li>
+        <li>Trading larger because the profit target feels close.</li>
+      </ul>
+    </section>
+
+    <section class="module-section">
+      <h2>Checklist Before Trading</h2>
+      <ul class="checklist">
+        <li>I know where the current drawdown floor is.</li>
+        <li>I know today's daily loss room.</li>
+        <li>My stop loss is planned before entry.</li>
+        <li>My risk is small enough to survive a losing trade.</li>
+      </ul>
+    </section>
+
+    <section class="module-section">
+      <h2>FAQ</h2>
+      <div class="qa-grid">
+        <article class="qa-item"><h3>Why do traders fail from trailing drawdown?</h3><p>They often keep trading after the drawdown floor has moved up. A normal pullback can become a rule violation if the trader does not know the current floor.</p></article>
+        <article class="qa-item"><h3>Is trailing drawdown the same at every prop firm?</h3><p>No. Some firms trail from balance, some from equity, and some stop trailing after a certain point. Always check the official rule page.</p></article>
+        <article class="qa-item"><h3>Should beginners avoid trailing drawdown accounts?</h3><p>Not always, but beginners should use smaller risk and track the floor carefully. Static drawdown rules are often easier to understand.</p></article>
+        <article class="qa-item"><h3>What should I calculate before a trade?</h3><p>Know the drawdown floor, account cushion, daily loss room, and planned dollar risk before entering.</p></article>
+      </div>
+    </section>
+
+    <section class="module-section">
+      <h2>Related Tools</h2>
+      <p>Next, use the <a href="../position-size/index.html">Position Size Calculator</a> and the <a href="../daily-loss-limit/index.html">Daily Loss Limit Calculator</a>.</p>
+      <p>Source note: formula logic is stored in <code>assets/js/calculators.js</code>. Last updated July 2026.</p>
+    </section>
+  </main>
+  <footer class="footer">Educational tool only. Not financial advice.</footer>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"Why do traders fail from trailing drawdown?","acceptedAnswer":{"@type":"Answer","text":"They often keep trading after the drawdown floor has moved up. A normal pullback can become a rule violation if the trader does not know the current floor."}},
+    {"@type":"Question","name":"Is trailing drawdown the same at every prop firm?","acceptedAnswer":{"@type":"Answer","text":"No. Some firms trail from balance, some from equity, and some stop trailing after a certain point. Always check the official rule page."}}
+  ]}
+  </script>
+  <script src="../../assets/js/calculators.js"></script>
+</body>
+</html>

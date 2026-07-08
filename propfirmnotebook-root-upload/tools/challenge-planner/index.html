@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prop Firm Challenge Planner | PropFirmNotebook</title>
+  <meta name="description" content="Plan a prop firm challenge with profit target, max loss, daily goal, and risk per trade.">
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+</head>
+<body>
+  <header class="site-header"><nav class="nav"><a class="brand" href="../../index.html">PropFirmNotebook</a><div class="nav-links"><a href="../index.html">Tools</a><a href="../position-size/index.html">Position Size</a><a href="../evaluation-tracker/index.html">Tracker</a></div></nav></header>
+  <main class="page">
+    <section class="tool-hero">
+      <p class="eyebrow">Tool 4</p>
+      <h1>Prop Firm Challenge Planner</h1>
+      <p class="lead">Break a challenge into calmer numbers before the evaluation begins.</p>
+      <div class="quick-answer">A challenge plan helps you avoid forcing trades. It shows the target, the maximum loss amount, the average daily pace, and how many full-risk losses could put the account in danger.</div>
+    </section>
+    <section class="calculator" data-calculator="challenge-planner">
+      <h2>Calculator</h2>
+      <form>
+        <div class="form-grid">
+          <label>Account size <input name="account" type="number" value="100000"></label>
+          <label>Profit target percent <input name="targetPercent" type="number" step="0.1" value="8"></label>
+          <label>Maximum loss percent <input name="maxLossPercent" type="number" step="0.1" value="5"></label>
+          <label>Planned trading days <input name="days" type="number" value="20"></label>
+          <label>Risk per trade percent <input name="riskPercent" type="number" step="0.1" value="0.5"></label>
+        </div>
+        <div class="button-row"><button type="submit">Calculate</button><button class="secondary" type="reset">Reset</button></div>
+      </form>
+      <div class="results" data-results></div>
+    </section>
+    <section class="module-section"><h2>Example Walkthrough</h2><p>On a $100,000 challenge with an 8% target, the target is $8,000. Over 20 trading days, that averages $400 per day. This is a planning guide, not a reason to trade every day.</p></section>
+    <section class="module-section"><h2>Common Mistakes</h2><ul class="checklist"><li>Treating the average daily goal like a requirement.</li><li>Using too much risk early.</li><li>Increasing risk after falling behind.</li><li>Ignoring the maximum loss while chasing the target.</li></ul></section>
+    <section class="module-section"><h2>Checklist Before Starting</h2><ul class="checklist"><li>I know the profit target.</li><li>I know the maximum loss.</li><li>I know my normal risk per trade.</li><li>I have rules for stopping after losses.</li></ul></section>
+    <section class="module-section"><h2>FAQ</h2><div class="qa-grid"><article class="qa-item"><h3>What is a prop firm challenge?</h3><p>It is an evaluation where a trader tries to reach a profit target without breaking risk rules.</p></article><article class="qa-item"><h3>How do I plan a funded trader challenge?</h3><p>Start with the target, maximum loss, daily loss, planned trading days, and risk per trade.</p></article><article class="qa-item"><h3>Should I force a daily profit target?</h3><p>No. The average daily number is only a planning guide. Good traders skip bad setups.</p></article><article class="qa-item"><h3>What is the safest way to pass a challenge?</h3><p>There is no guaranteed safe way, but smaller risk, clear rules, and avoiding revenge trading can improve survival.</p></article></div></section>
+    <section class="module-section"><h2>Related Tools</h2><p>Next, use the <a href="../position-size/index.html">Position Size Calculator</a> and <a href="../evaluation-tracker/index.html">Evaluation Progress Tracker</a>.</p><p>Source note: formula logic is stored in <code>assets/js/calculators.js</code>. Last updated July 2026.</p></section>
+  </main>
+  <footer class="footer">Educational tool only. Not financial advice.</footer>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"What is a prop firm challenge?","acceptedAnswer":{"@type":"Answer","text":"It is an evaluation where a trader tries to reach a profit target without breaking risk rules."}},
+    {"@type":"Question","name":"How do I plan a funded trader challenge?","acceptedAnswer":{"@type":"Answer","text":"Start with the target, maximum loss, daily loss, planned trading days, and risk per trade."}}
+  ]}
+  </script>
+  <script src="../../assets/js/calculators.js"></script>
+</body>
+</html>

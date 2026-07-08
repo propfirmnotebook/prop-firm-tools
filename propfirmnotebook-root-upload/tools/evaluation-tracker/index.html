@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Evaluation Progress Tracker | PropFirmNotebook</title>
+  <meta name="description" content="Track prop firm evaluation progress, remaining profit target, drawdown room, and daily pace.">
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+</head>
+<body>
+  <header class="site-header"><nav class="nav"><a class="brand" href="../../index.html">PropFirmNotebook</a><div class="nav-links"><a href="../index.html">Tools</a><a href="../challenge-planner/index.html">Planner</a><a href="../daily-loss-limit/index.html">Daily Loss</a></div></nav></header>
+  <main class="page">
+    <section class="tool-hero">
+      <p class="eyebrow">Tool 5</p>
+      <h1>Evaluation Progress Tracker</h1>
+      <p class="lead">See how close you are to the target and how much room you still have.</p>
+      <div class="quick-answer">An evaluation tracker helps you stay objective. It shows progress toward the target, remaining target amount, drawdown room, and the average amount still needed per remaining day.</div>
+    </section>
+    <section class="calculator" data-calculator="evaluation-tracker">
+      <h2>Calculator</h2>
+      <form>
+        <div class="form-grid">
+          <label>Starting balance <input name="starting" type="number" value="100000"></label>
+          <label>Current balance/equity <input name="current" type="number" value="103250"></label>
+          <label>Profit target amount <input name="target" type="number" value="8000"></label>
+          <label>Maximum loss amount <input name="maxLoss" type="number" value="5000"></label>
+          <label>Daily loss limit <input name="dailyLoss" type="number" value="2000"></label>
+          <label>Trading days remaining <input name="days" type="number" value="12"></label>
+        </div>
+        <div class="button-row"><button type="submit">Calculate</button><button class="secondary" type="reset">Reset</button></div>
+      </form>
+      <div class="results" data-results></div>
+    </section>
+    <section class="module-section"><h2>Example Walkthrough</h2><p>If the account started at $100,000 and is now $103,250 with an $8,000 target, the trader is 40.63% of the way there. The point is to stay calm and protect the account while moving toward the target.</p></section>
+    <section class="module-section"><h2>Common Mistakes</h2><ul class="checklist"><li>Only watching the target and ignoring drawdown room.</li><li>Forcing trades when behind schedule.</li><li>Increasing size after a good day.</li><li>Not updating the tracker after every trading day.</li></ul></section>
+    <section class="module-section"><h2>Checklist After Each Day</h2><ul class="checklist"><li>I updated current balance/equity.</li><li>I know the remaining target.</li><li>I know current drawdown room.</li><li>I am not increasing risk just because I am close.</li></ul></section>
+    <section class="module-section"><h2>FAQ</h2><div class="qa-grid"><article class="qa-item"><h3>How do I track a prop firm evaluation?</h3><p>Track current balance or equity, remaining profit target, daily loss room, and overall drawdown room.</p></article><article class="qa-item"><h3>Why should I track progress daily?</h3><p>Daily tracking helps traders avoid guessing and overtrading when they are close to the target or close to a rule limit.</p></article><article class="qa-item"><h3>Should I increase size when close to passing?</h3><p>Usually no. Increasing size near the target can turn a good challenge into a fast failure.</p></article><article class="qa-item"><h3>What matters more: target or drawdown room?</h3><p>Both matter, but drawdown room protects the account. You cannot reach the target after breaking the rules.</p></article></div></section>
+    <section class="module-section"><h2>Related Tools</h2><p>Next, use the <a href="../daily-loss-limit/index.html">Daily Loss Limit Calculator</a> and <a href="../trailing-drawdown/index.html">Trailing Drawdown Calculator</a>.</p><p>Source note: formula logic is stored in <code>assets/js/calculators.js</code>. Last updated July 2026.</p></section>
+  </main>
+  <footer class="footer">Educational tool only. Not financial advice.</footer>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"How do I track a prop firm evaluation?","acceptedAnswer":{"@type":"Answer","text":"Track current balance or equity, remaining profit target, daily loss room, and overall drawdown room."}},
+    {"@type":"Question","name":"Why should I track progress daily?","acceptedAnswer":{"@type":"Answer","text":"Daily tracking helps traders avoid guessing and overtrading when they are close to the target or close to a rule limit."}}
+  ]}
+  </script>
+  <script src="../../assets/js/calculators.js"></script>
+</body>
+</html>

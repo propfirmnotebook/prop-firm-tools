@@ -1,0 +1,32 @@
+[
+  {
+    "question": "What is a prop firm?",
+    "answer": "A prop firm gives qualified traders access to a funded account or simulated funded account. Traders usually have to follow strict risk rules before receiving payouts.",
+    "page": "/"
+  },
+  {
+    "question": "How do funded trader accounts work?",
+    "answer": "Most funded trader programs require an evaluation first. The trader must reach a profit target while staying inside daily loss, maximum loss, and drawdown rules.",
+    "page": "/"
+  },
+  {
+    "question": "What is a prop firm challenge?",
+    "answer": "A prop firm challenge is an evaluation where a trader tries to hit a profit target without breaking risk rules.",
+    "page": "/tools/challenge-planner/"
+  },
+  {
+    "question": "What is trailing drawdown?",
+    "answer": "Trailing drawdown is a loss limit that can move upward as the account reaches new highs.",
+    "page": "/tools/trailing-drawdown/"
+  },
+  {
+    "question": "What is position sizing?",
+    "answer": "Position sizing is choosing trade size based on account size, stop distance, and risk amount.",
+    "page": "/tools/position-size/"
+  },
+  {
+    "question": "Are trading teams allowed at prop firms?",
+    "answer": "Some firms allow teams, trade copiers, or managed accounts, while others ban them. Traders should check official rules first.",
+    "page": "/"
+  }
+]

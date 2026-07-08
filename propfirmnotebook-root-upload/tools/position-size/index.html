@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Position Size Calculator | PropFirmNotebook</title>
+  <meta name="description" content="Calculate position size using account size, risk percent, stop distance, and point value.">
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+</head>
+<body>
+  <header class="site-header"><nav class="nav"><a class="brand" href="../../index.html">PropFirmNotebook</a><div class="nav-links"><a href="../index.html">Tools</a><a href="../trailing-drawdown/index.html">Drawdown</a><a href="../challenge-planner/index.html">Planner</a></div></nav></header>
+  <main class="page">
+    <section class="tool-hero">
+      <p class="eyebrow">Tool 2</p>
+      <h1>Position Size Calculator</h1>
+      <p class="lead">Turn your account size and stop loss into a cleaner trade size.</p>
+      <div class="quick-answer">Position sizing means deciding how large a trade should be before you enter. Good sizing starts with the amount you are willing to lose, not with how much you want to make.</div>
+    </section>
+    <section class="calculator" data-calculator="position-size">
+      <h2>Calculator</h2>
+      <form>
+        <div class="form-grid">
+          <label>Account size <input name="account" type="number" value="100000"></label>
+          <label>Risk percentage <input name="riskPercent" type="number" step="0.1" value="0.5"></label>
+          <label>Stop distance <input name="stopDistance" type="number" step="0.01" value="10"></label>
+          <label>Dollar value per point/pip/tick <input name="pointValue" type="number" step="0.01" value="5"></label>
+        </div>
+        <div class="button-row"><button type="submit">Calculate</button><button class="secondary" type="reset">Reset</button></div>
+      </form>
+      <div class="results" data-results></div>
+    </section>
+    <section class="module-section"><h2>Example Walkthrough</h2><p>A trader with a $100,000 account risking 0.5% is risking $500. If the stop is 10 points away and each point is worth $5, the estimated position size is 10 contracts, lots, shares, or units depending on the market.</p></section>
+    <section class="module-section"><h2>Common Mistakes</h2><ul class="checklist"><li>Choosing size first and stop loss second.</li><li>Increasing size to recover losses.</li><li>Forgetting that wider stops need smaller size.</li><li>Risking the same amount in every market without checking point value.</li></ul></section>
+    <section class="module-section"><h2>Checklist Before Trading</h2><ul class="checklist"><li>I know my dollar risk.</li><li>I know my stop distance.</li><li>I checked the instrument value.</li><li>I am comfortable with the loss before entering.</li></ul></section>
+    <section class="module-section"><h2>FAQ</h2><div class="qa-grid"><article class="qa-item"><h3>What is position sizing?</h3><p>Position sizing is choosing trade size based on account size, stop distance, and risk amount.</p></article><article class="qa-item"><h3>Why does position size matter in a prop firm challenge?</h3><p>Oversized trades can hit daily loss or maximum loss rules quickly. Smaller sizing gives the trader more room to make decisions.</p></article><article class="qa-item"><h3>How much should a beginner risk per trade?</h3><p>Many beginners use small risk, often under 1% per trade, while learning to follow rules and handle losing streaks.</p></article><article class="qa-item"><h3>Does a wider stop need smaller size?</h3><p>Yes. If the stop is farther away, the position size usually needs to be smaller to keep the same dollar risk.</p></article></div></section>
+    <section class="module-section"><h2>Related Tools</h2><p>Next, use the <a href="../daily-loss-limit/index.html">Daily Loss Limit Calculator</a> or <a href="../challenge-planner/index.html">Challenge Planner</a>.</p><p>Source note: formula logic is stored in <code>assets/js/calculators.js</code>. Last updated July 2026.</p></section>
+  </main>
+  <footer class="footer">Educational tool only. Not financial advice.</footer>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"What is position sizing?","acceptedAnswer":{"@type":"Answer","text":"Position sizing is choosing trade size based on account size, stop distance, and risk amount."}},
+    {"@type":"Question","name":"Why does position size matter in a prop firm challenge?","acceptedAnswer":{"@type":"Answer","text":"Oversized trades can hit daily loss or maximum loss rules quickly. Smaller sizing gives the trader more room to make decisions."}}
+  ]}
+  </script>
+  <script src="../../assets/js/calculators.js"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daily Loss Limit Calculator | PropFirmNotebook</title>
+  <meta name="description" content="Calculate remaining daily loss room before a prop firm daily loss rule is at risk.">
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+</head>
+<body>
+  <header class="site-header"><nav class="nav"><a class="brand" href="../../index.html">PropFirmNotebook</a><div class="nav-links"><a href="../index.html">Tools</a><a href="../position-size/index.html">Position Size</a><a href="../evaluation-tracker/index.html">Tracker</a></div></nav></header>
+  <main class="page">
+    <section class="tool-hero">
+      <p class="eyebrow">Tool 3</p>
+      <h1>Daily Loss Limit Calculator</h1>
+      <p class="lead">Know when to stop trading before a bad day becomes a failed account.</p>
+      <div class="quick-answer">A daily loss limit is the maximum loss allowed in one trading day. This tool combines closed and open profit/loss so you can see whether you still have room or should stop.</div>
+    </section>
+    <section class="calculator" data-calculator="daily-loss-limit">
+      <h2>Calculator</h2>
+      <form>
+        <div class="form-grid">
+          <label>Firm daily loss limit <input name="dailyLimit" type="number" value="2000"></label>
+          <label>Closed profit or loss today <input name="currentPl" type="number" value="-500"></label>
+          <label>Open profit or loss <input name="openPl" type="number" value="-250"></label>
+          <label>Your personal stop limit <input name="personalStop" type="number" value="1000"></label>
+        </div>
+        <div class="button-row"><button type="submit">Calculate</button><button class="secondary" type="reset">Reset</button></div>
+      </form>
+      <div class="results" data-results></div>
+    </section>
+    <section class="module-section"><h2>Example Walkthrough</h2><p>If the daily loss limit is $2,000 and you are down $750 including open trades, you have $1,250 of firm room left. A personal stop should usually be tighter than the firm limit.</p></section>
+    <section class="module-section"><h2>Common Mistakes</h2><ul class="checklist"><li>Only counting closed trades.</li><li>Letting open losses drift into the rule limit.</li><li>Trying to win back the day after hitting a personal stop.</li><li>Not knowing whether the firm uses balance, equity, or both.</li></ul></section>
+    <section class="module-section"><h2>Checklist Before Trading</h2><ul class="checklist"><li>I know the daily loss rule.</li><li>I included open trades.</li><li>I have a personal stop for the day.</li><li>I will stop before reaching the firm limit.</li></ul></section>
+    <section class="module-section"><h2>FAQ</h2><div class="qa-grid"><article class="qa-item"><h3>What is a daily loss limit?</h3><p>It is the most a trader can lose in one day before breaking the account rules.</p></article><article class="qa-item"><h3>Do open losses count?</h3><p>Some firms count open losses and equity, while others focus on closed balance. Traders should check the official rule before trading.</p></article><article class="qa-item"><h3>When should I stop trading for the day?</h3><p>Stop before the firm limit is close. A personal stop that is smaller than the firm rule can protect the account.</p></article><article class="qa-item"><h3>Why do beginners break daily loss rules?</h3><p>Many keep trading after an early loss. Revenge trading can turn one bad trade into a failed evaluation.</p></article></div></section>
+    <section class="module-section"><h2>Related Tools</h2><p>Next, use the <a href="../trailing-drawdown/index.html">Trailing Drawdown Calculator</a> or <a href="../evaluation-tracker/index.html">Evaluation Progress Tracker</a>.</p><p>Source note: formula logic is stored in <code>assets/js/calculators.js</code>. Last updated July 2026.</p></section>
+  </main>
+  <footer class="footer">Educational tool only. Not financial advice.</footer>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"What is a daily loss limit?","acceptedAnswer":{"@type":"Answer","text":"It is the most a trader can lose in one day before breaking the account rules."}},
+    {"@type":"Question","name":"Do open losses count?","acceptedAnswer":{"@type":"Answer","text":"Some firms count open losses and equity, while others focus on closed balance. Traders should check the official rule before trading."}}
+  ]}
+  </script>
+  <script src="../../assets/js/calculators.js"></script>
+</body>
+</html>
