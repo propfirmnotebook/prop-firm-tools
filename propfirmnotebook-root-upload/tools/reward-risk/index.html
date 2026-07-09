@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reward to Risk Calculator | PropFirmNotebook</title>
+  <meta name="description" content="Calculate your reward-to-risk ratio and break-even win rate for any trade setup.">
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+</head>
+<body>
+  <header class="site-header"><nav class="nav"><a class="brand" href="../../index.html">PropFirmNotebook</a><div class="nav-links"><a href="../index.html">Tools</a><a href="../position-size/index.html">Position Size</a><a href="../challenge-planner/index.html">Planner</a></div></nav></header>
+  <main class="page">
+    <section class="tool-hero">
+      <p class="eyebrow">Tool 7</p>
+      <h1>Reward to Risk Calculator</h1>
+      <p class="lead">Find out whether a trade setup actually makes mathematical sense before you enter.</p>
+      <div class="quick-answer">The reward-to-risk ratio compares how much you could gain versus how much you could lose on a trade. A 2:1 ratio means you stand to make $2 for every $1 at risk. This calculator shows your ratio, break-even win rate, and whether the setup is worth taking.</div>
+    </section>
+    <section class="calculator" data-calculator="reward-risk">
+      <h2>Calculator</h2>
+      <form>
+        <div class="form-grid">
+          <label>Entry price <input name="entry" type="number" step="0.01" value="1.1000"></label>
+          <label>Stop loss price <input name="stop" type="number" step="0.01" value="1.0950"></label>
+          <label>Target price <input name="target" type="number" step="0.01" value="1.1100"></label>
+          <label>Dollar risk (optional) <input name="dollarRisk" type="number" step="0.01" value=""></label>
+          <label>Dollar reward (optional) <input name="dollarReward" type="number" step="0.01" value=""></label>
+        </div>
+        <div class="button-row"><button type="submit">Calculate</button><button class="secondary" type="reset">Reset</button></div>
+      </form>
+      <div class="results" data-results></div>
+    </section>
+    <section class="module-section"><h2>Example Walkthrough</h2><p>If you enter at 1.1000 with a stop at 1.0950 (50 pip risk) and a target at 1.1100 (100 pip reward), your reward-to-risk ratio is 2:1. You only need to win 33.3% of trades to break even. With a 50% win rate, you have a strong positive expectancy.</p></section>
+    <section class="module-section"><h2>Common Mistakes</h2><ul class="checklist"><li>Chasing setups with poor reward-to-risk ratios below 1:1.</li><li>Moving stops further away instead of skipping the trade.</li><li>Taking profits too early and letting winners become losers.</li><li>Forgetting that a low win rate can still be profitable with good R:R.</li></ul></section>
+    <section class="module-section"><h2>Checklist Before Entering</h2><ul class="checklist"><li>The reward-to-risk ratio is at least 1.5:1 or higher.</li><li>I know my exact entry, stop, and target before placing the order.</li><li>The target is within a realistic range based on market structure.</li><li>I am comfortable with the break-even win rate required.</li></ul></section>
+    <section class="module-section"><h2>FAQ</h2><div class="qa-grid"><article class="qa-item"><h3>What is a good reward-to-risk ratio?</h3><p>A ratio of 2:1 or higher is generally considered good. It means you can be wrong more often than right and still be profitable overall.</p></article><article class="qa-item"><h3>What is break-even win rate?</h3><p>The minimum win rate needed to not lose money. At 2:1 R:R, you need only 33% win rate. At 1:1, you need 50%.</p></article><article class="qa-item"><h3>Should I always take high R:R setups?</h3><p>Not necessarily. High R:R setups may be rare or require wider stops that increase slippage risk. Balance frequency with ratio.</p></article><article class="qa-item"><h3>Can I use dollar amounts instead of prices?</h3><p>Yes. Enter dollar risk and dollar reward directly if you already know those numbers from your position sizing calculation.</p></article></div></section>
+    <section class="module-section"><h2>Related Tools</h2><p>Next, use the <a href="../position-size/index.html">Position Size Calculator</a> and the <a href="../risk-of-ruin/index.html">Risk of Ruin Calculator</a>.</p><p>Source note: formula logic is stored in <code>assets/js/calculators.js</code>. Last updated July 2026.</p></section>
+  </main>
+  <footer class="footer">Educational tool only. Not financial advice.</footer>
+  <script src="../../assets/js/calculators.js"></script>
+</body>
+</html>

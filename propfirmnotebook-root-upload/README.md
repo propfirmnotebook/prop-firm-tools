@@ -4,13 +4,17 @@ This is the ready-to-upload version of the PropFirmNotebook website for investin
 
 The current GitHub repo name is expected to be `prop-firm-tools`. PropFirmNotebook is the public site brand.
 
-It includes five educational tools:
+It includes **nine** educational tools:
 
 - Trailing Drawdown Calculator
 - Position Size Calculator
 - Daily Loss Limit Calculator
 - Prop Firm Challenge Planner
 - Evaluation Progress Tracker
+- Risk of Ruin Calculator
+- Reward to Risk Calculator
+- Lot Size Calculator
+- Profit Split Calculator
 
 The site also includes:
 

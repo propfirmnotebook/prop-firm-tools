@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Profit Split Calculator | PropFirmNotebook</title>
+  <meta name="description" content="Calculate your expected payout from a prop firm based on profit amount, split percentage, and fees.">
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+</head>
+<body>
+  <header class="site-header"><nav class="nav"><a class="brand" href="../../index.html">PropFirmNotebook</a><div class="nav-links"><a href="../index.html">Tools</a><a href="../challenge-planner/index.html">Planner</a><a href="../evaluation-tracker/index.html">Tracker</a></div></nav></header>
+  <main class="page">
+    <section class="tool-hero">
+      <p class="eyebrow">Tool 9</p>
+      <h1>Profit Split Calculator</h1>
+      <p class="lead">Know exactly what you will take home before you generate the profit.</p>
+      <div class="quick-answer">A profit split determines how much of your generated profit goes to you versus the prop firm. Most firms offer splits between 70% and 90% for the trader. This calculator shows your actual payout, the firm's share, and net estimate after any fees or deductions.</div>
+    </section>
+    <section class="calculator" data-calculator="profit-split">
+      <h2>Calculator</h2>
+      <form>
+        <div class="form-grid">
+          <label>Total profit amount <input name="profit" type="number" value="5000"></label>
+          <label>Your split percent <input name="splitPercent" type="number" step="1" value="80"></label>
+          <label>Fees or deductions <input name="fees" type="number" step="0.01" value="0"></label>
+        </div>
+        <div class="button-row"><button type="submit">Calculate</button><button class="secondary" type="reset">Reset</button></div>
+      </form>
+      <div class="results" data-results></div>
+    </section>
+    <section class="module-section"><h2>Example Walkthrough</h2><p>If you generated $5,000 in profit with an 80% split, you receive $4,000 and the firm keeps $1,000. After deducting $50 in withdrawal fees, your net payout is $3,950. Always check for hidden fees like monthly platform fees or inactivity charges.</p></section>
+    <section class="module-section"><h2>Common Payout Mistakes</h2><ul class="checklist"><li>Not accounting for monthly subscription fees when calculating net profit.</li><li>Assuming the profit split applies to all accounts simultaneously.</li><li>Ignoring minimum payout thresholds set by the firm.</li><li>Forgetting about withdrawal fees and processing times.</li></ul></section>
+    <section class="module-section"><h2>Checklist Before Requesting Payout</h2><ul class="checklist"><li>I know my exact profit split percentage from the firm's terms.</li><li>I have met all consistency and trading day requirements.</li><li>I have deducted all fees and subscription costs.</li><li>I understand the withdrawal schedule and processing time.</li></ul></section>
+    <section class="module-section"><h2>FAQ</h2><div class="qa-grid"><article class="qa-item"><h3>What is a typical profit split?</h3><p>Most prop firms offer between 70% and 90% for the trader. Top-tier firms sometimes offer up to 95% for consistent performers.</p></article><article class="qa-item"><h3>Are there hidden fees I should know about?</h3><p>Some firms charge monthly platform fees, inactivity fees, or withdrawal fees. Always read the full terms before joining.</p></article><article class="qa-item"><h3>How often can I request payouts?</h3><p>This varies by firm. Some offer weekly payouts, others monthly. Check the specific firm's payout schedule.</p></article><article class="qa-item"><h3>Do profit splits apply to all accounts?</h3><p>Usually yes, but some firms have tiered systems where larger funded accounts or multiple accounts may have different split structures.</p></article></div></section>
+    <section class="module-section"><h2>Related Tools</h2><p>Next, use the <a href="../challenge-planner/index.html">Challenge Planner</a> and the <a href="../evaluation-tracker/index.html">Evaluation Tracker</a>.</p><p>Source note: formula logic is stored in <code>assets/js/calculators.js</code>. Last updated July 2026.</p></section>
+  </main>
+  <footer class="footer">Educational tool only. Not financial advice.</footer>
+  <script src="../../assets/js/calculators.js"></script>
+</body>
+</html>

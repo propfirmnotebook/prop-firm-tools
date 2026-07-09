@@ -130,12 +130,110 @@ function evaluationTracker(form, results) {
   ]);
 }
 
+
+function riskOfRuin(form, results) {
+  const account = value(form, "account");
+  const riskPercent = value(form, "riskPercent");
+  const winRate = value(form, "winRate");
+  const rewardRisk = value(form, "rewardRisk");
+  const maxLoss = value(form, "maxLoss");
+  const numTrades = value(form, "numTrades");
+
+  const riskPerTrade = account * (riskPercent / 100);
+  const winProb = winRate / 100;
+  const lossProb = 1 - winProb;
+  const expectancy = (winProb * rewardRisk - lossProb) * riskPerTrade;
+  const losingStreakRisk = Math.pow(lossProb, 3);
+  const survivalPressure = expectancy <= 0 ? "Negative expectancy: long-term bleed" : expectancy > riskPerTrade * 0.5 ? "Positive edge" : "Marginal edge";
+  const drawdownExposure = maxLoss > 0 ? (riskPerTrade / maxLoss) * 100 : 0;
+  const suggestedRisk = expectancy <= 0 ? riskPercent : Math.max(0.25, riskPercent * 0.75);
+
+  setResults(results, [
+    { label: "Expected value per trade", value: money.format(expectancy), tone: expectancy <= 0 ? "danger" : expectancy > riskPerTrade * 0.5 ? "ok" : "warning", note: survivalPressure },
+    { label: "3-trade losing streak chance", value: `${number.format(losingStreakRisk * 100)}%`, tone: losingStreakRisk > 0.3 ? "warning" : "ok", note: "Probability of 3 consecutive losses." },
+    { label: "Drawdown exposure per trade", value: `${number.format(drawdownExposure)}%`, tone: drawdownExposure > 10 ? "warning" : "ok", note: "Risk per trade as % of max loss." },
+    { label: "Suggested risk adjustment", value: `${suggestedRisk}%`, tone: suggestedRisk < riskPercent ? "warning" : "ok", note: suggestedRisk < riskPercent ? "Reduce risk to improve survival." : "Current risk level is reasonable." }
+  ]);
+}
+
+function rewardRisk(form, results) {
+  const entry = value(form, "entry");
+  const stop = value(form, "stop");
+  const target = value(form, "target");
+  const dollarRisk = value(form, "dollarRisk");
+  const dollarReward = value(form, "dollarReward");
+
+  const hasPrices = entry > 0 && stop > 0 && target > 0;
+  const hasDollars = dollarRisk > 0 && dollarReward > 0;
+
+  let rrRatio = 0;
+  let breakEvenWR = 0;
+  let interpretation = "Enter values to calculate.";
+
+  if (hasPrices) {
+    const riskDist = Math.abs(entry - stop);
+    const rewardDist = Math.abs(target - entry);
+    rrRatio = riskDist > 0 ? rewardDist / riskDist : 0;
+    breakEvenWR = rrRatio > 0 ? (1 / (1 + rrRatio)) * 100 : 50;
+    interpretation = rrRatio >= 3 ? "Strong setup" : rrRatio >= 2 ? "Good setup" : rrRatio >= 1 ? "Acceptable" : "Poor ratio";
+  } else if (hasDollars) {
+    rrRatio = dollarRisk > 0 ? dollarReward / dollarRisk : 0;
+    breakEvenWR = rrRatio > 0 ? (1 / (1 + rrRatio)) * 100 : 50;
+    interpretation = rrRatio >= 3 ? "Strong setup" : rrRatio >= 2 ? "Good setup" : rrRatio >= 1 ? "Acceptable" : "Poor ratio";
+  }
+
+  setResults(results, [
+    { label: "Reward:Risk ratio", value: `${number.format(rrRatio)}:1`, tone: rrRatio >= 2 ? "ok" : rrRatio >= 1 ? "warning" : "danger", note: interpretation },
+    { label: "Break-even win rate", value: `${number.format(breakEvenWR)}%`, note: "You need to win this often just to break even." },
+    { label: "Interpretation", value: interpretation, tone: rrRatio >= 2 ? "ok" : rrRatio >= 1 ? "warning" : "danger", note: "Higher ratios give you more room to be wrong." }
+  ]);
+}
+
+function lotSize(form, results) {
+  const account = value(form, "account");
+  const riskPercent = value(form, "riskPercent");
+  const entry = value(form, "entry");
+  const stop = value(form, "stop");
+  const instrumentValue = value(form, "instrumentValue");
+
+  const dollarRisk = account * (riskPercent / 100);
+  const stopDistance = Math.abs(entry - stop);
+  const lotSize = stopDistance > 0 && instrumentValue > 0 ? dollarRisk / (stopDistance * instrumentValue) : 0;
+  const exposure = lotSize * entry * instrumentValue;
+
+  setResults(results, [
+    { label: "Dollar risk", value: money.format(dollarRisk), note: `Risking ${riskPercent}% of ${money.format(account)}.` },
+    { label: "Lot size / contracts", value: number.format(lotSize), note: "Adjust based on your broker's contract specifications." },
+    { label: "Approximate exposure", value: money.format(exposure), note: "Total notional value of the position." }
+  ]);
+}
+
+function profitSplit(form, results) {
+  const profit = value(form, "profit");
+  const splitPercent = value(form, "splitPercent");
+  const fees = value(form, "fees");
+
+  const traderShare = profit * (splitPercent / 100);
+  const firmShare = profit - traderShare;
+  const netEstimate = traderShare - fees;
+
+  setResults(results, [
+    { label: "Trader payout", value: money.format(traderShare), note: `${splitPercent}% of ${money.format(profit)}.` },
+    { label: "Firm share", value: money.format(firmShare), note: `What the firm keeps (${100 - splitPercent}%).` },
+    { label: "Net estimate", value: money.format(netEstimate), tone: netEstimate < 0 ? "danger" : "ok", note: fees > 0 ? `After deducting ${money.format(fees)} in fees/deductions.` : "No fees applied." }
+  ]);
+}
+
 const calculators = {
   "trailing-drawdown": trailingDrawdown,
   "position-size": positionSize,
   "daily-loss-limit": dailyLossLimit,
   "challenge-planner": challengePlanner,
-  "evaluation-tracker": evaluationTracker
+  "evaluation-tracker": evaluationTracker,
+  "risk-of-ruin": riskOfRuin,
+  "reward-risk": rewardRisk,
+  "lot-size": lotSize,
+  "profit-split": profitSplit
 };
 
 document.querySelectorAll("[data-calculator]").forEach((calculator) => {

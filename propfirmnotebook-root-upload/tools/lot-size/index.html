@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lot Size Calculator | PropFirmNotebook</title>
+  <meta name="description" content="Calculate forex lot sizes and contract quantities based on risk, stop distance, and instrument value.">
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+</head>
+<body>
+  <header class="site-header"><nav class="nav"><a class="brand" href="../../index.html">PropFirmNotebook</a><div class="nav-links"><a href="../index.html">Tools</a><a href="../position-size/index.html">Position Size</a><a href="../daily-loss-limit/index.html">Daily Loss</a></div></nav></header>
+  <main class="page">
+    <section class="tool-hero">
+      <p class="eyebrow">Tool 8</p>
+      <h1>Lot Size Calculator</h1>
+      <p class="lead">Convert your risk parameters into the exact lot size or contract quantity your broker requires.</p>
+      <div class="quick-answer">Lot sizing tells you exactly how many lots or contracts to trade based on your account size, risk percentage, stop distance, and the instrument's value per point. This is different from position sizing in that it gives you the final execution number rather than the dollar risk amount.</div>
+    </section>
+    <section class="calculator" data-calculator="lot-size">
+      <h2>Calculator</h2>
+      <form>
+        <div class="form-grid">
+          <label>Account size <input name="account" type="number" value="100000"></label>
+          <label>Risk percent <input name="riskPercent" type="number" step="0.1" value="0.5"></label>
+          <label>Entry price <input name="entry" type="number" step="0.0001" value="1.1000"></label>
+          <label>Stop loss price <input name="stop" type="number" step="0.0001" value="1.0950"></label>
+          <label>Value per point/pip <input name="instrumentValue" type="number" step="0.01" value="10"></label>
+        </div>
+        <div class="button-row"><button type="submit">Calculate</button><button class="secondary" type="reset">Reset</button></div>
+      </form>
+      <div class="results" data-results></div>
+    </section>
+    <section class="module-section"><h2>Example Walkthrough</h2><p>On a $100,000 account risking 0.5%, you are risking $500. If the stop is 50 pips away and each pip is worth $10, the lot size would be approximately 1 standard lot. Always verify with your broker's contract specifications.</p></section>
+    <section class="module-section"><h2>Instrument Warnings</h2><ul class="checklist"><li>Forex pip values vary by currency pair and account currency.</li><li>Futures contracts have fixed contract sizes that differ by exchange.</li><li>Indices and stocks have different point values than forex pairs.</li><li>Always confirm your broker's exact contract specifications before trading.</li></ul></section>
+    <section class="module-section"><h2>Checklist Before Executing</h2><ul class="checklist"><li>I verified the instrument's point value with my broker.</li><li>I confirmed the lot size matches my broker's minimum and maximum.</li><li>I checked margin requirements for the calculated position size.</li><li>I accounted for swap/rollover costs if holding overnight.</li></ul></section>
+    <section class="module-section"><h2>FAQ</h2><div class="qa-grid"><article class="qa-item"><h3>What is a standard lot in forex?</h3><p>A standard lot equals 100,000 units of the base currency. A mini lot is 10,000 units and a micro lot is 1,000 units.</p></article><article class="qa-item"><h3>How do I find my instrument's point value?</h3><p>Check your broker's contract specifications or use a demo account to calculate the dollar value per pip movement.</p></article><article class="qa-item"><h3>Is lot size the same as position size?</h3><p>Position size refers to the dollar risk amount. Lot size is the actual number of contracts or lots to execute based on that dollar risk.</p></article><article class="qa-item"><h3>Can I use this for futures trading?</h3><p>Yes. Enter the appropriate point value for your futures contract (e.g., $12.50 per point for ES futures).</p></article></div></section>
+    <section class="module-section"><h2>Related Tools</h2><p>Next, use the <a href="../position-size/index.html">Position Size Calculator</a> and the <a href="../reward-risk/index.html">Reward to Risk Calculator</a>.</p><p>Source note: formula logic is stored in <code>assets/js/calculators.js</code>. Last updated July 2026.</p></section>
+  </main>
+  <footer class="footer">Educational tool only. Not financial advice.</footer>
+  <script src="../../assets/js/calculators.js"></script>
+</body>
+</html>

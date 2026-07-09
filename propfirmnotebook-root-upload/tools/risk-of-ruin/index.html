@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Risk of Ruin Calculator | PropFirmNotebook</title>
+  <meta name="description" content="Calculate your risk of ruin based on win rate, reward-to-risk ratio, and risk per trade.">
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+</head>
+<body>
+  <header class="site-header"><nav class="nav"><a class="brand" href="../../index.html">PropFirmNotebook</a><div class="nav-links"><a href="../index.html">Tools</a><a href="../position-size/index.html">Position Size</a><a href="../trailing-drawdown/index.html">Drawdown</a></div></nav></header>
+  <main class="page">
+    <section class="tool-hero">
+      <p class="eyebrow">Tool 6</p>
+      <h1>Risk of Ruin Calculator</h1>
+      <p class="lead">See how your win rate, risk per trade, and reward-to-risk ratio affect your long-term survival.</p>
+      <div class="quick-answer">Risk of ruin measures the probability that your account will be wiped out over a series of trades. Even with a positive edge, too much risk per trade can lead to devastating losing streaks. This calculator shows your survival pressure and suggests safer risk levels.</div>
+    </section>
+    <section class="calculator" data-calculator="risk-of-ruin">
+      <h2>Calculator</h2>
+      <form>
+        <div class="form-grid">
+          <label>Account size <input name="account" type="number" value="100000"></label>
+          <label>Risk per trade percent <input name="riskPercent" type="number" step="0.1" value="1"></label>
+          <label>Estimated win rate <input name="winRate" type="number" step="1" value="50"></label>
+          <label>Reward to Risk ratio <input name="rewardRisk" type="number" step="0.1" value="2"></label>
+          <label>Maximum loss limit <input name="maxLoss" type="number" value="5000"></label>
+          <label>Number of trades planned <input name="numTrades" type="number" value="50"></label>
+        </div>
+        <div class="button-row"><button type="submit">Calculate</button><button class="secondary" type="reset">Reset</button></div>
+      </form>
+      <div class="results" data-results></div>
+    </section>
+    <section class="module-section"><h2>Example Walkthrough</h2><p>A trader with a $100,000 account risking 1% per trade with a 50% win rate and 2:1 reward-to-risk has a positive expectancy. However, even with this edge, a string of losses can still cause significant drawdown. The calculator shows how reducing risk to 0.5% dramatically improves survival odds.</p></section>
+    <section class="module-section"><h2>Common Mistakes</h2><ul class="checklist"><li>Risking more than 2% per trade in a challenge.</li><li>Overestimating win rate after a short sample.</li><li>Ignoring the impact of consecutive losses.</li><li>Increasing risk after a winning streak.</li></ul></section>
+    <section class="module-section"><h2>Checklist Before Trading</h2><ul class="checklist"><li>I know my actual win rate from recorded data.</li><li>I understand my true reward-to-risk ratio.</li><li>My risk per trade is small enough to survive 10 losses.</li><li>I am not increasing risk to chase targets.</li></ul></section>
+    <section class="module-section"><h2>FAQ</h2><div class="qa-grid"><article class="qa-item"><h3>What is risk of ruin?</h3><p>Risk of ruin is the statistical probability that a trading strategy will lose all capital over a given number of trades, based on win rate, risk per trade, and reward-to-risk ratio.</p></article><article class="qa-item"><h3>How much should I risk per trade?</h3><p>Most professional traders risk between 0.25% and 1% per trade. Higher risk increases both potential gains and the chance of catastrophic losses.</p></article><article class="qa-item"><h3>Does a high win rate guarantee survival?</h3><p>No. A high win rate with poor reward-to-risk can still lead to ruin if the occasional large loss wipes out many small wins.</p></article><article class="qa-item"><h3>How does reward-to-risk affect survival?</h3><p>Higher reward-to-risk ratios mean you need a lower win rate to be profitable, which significantly improves long-term survival chances.</p></article></div></section>
+    <section class="module-section"><h2>Related Tools</h2><p>Next, use the <a href="../position-size/index.html">Position Size Calculator</a> and the <a href="../daily-loss-limit/index.html">Daily Loss Limit Calculator</a>.</p><p>Source note: formula logic is stored in <code>assets/js/calculators.js</code>. Last updated July 2026.</p></section>
+  </main>
+  <footer class="footer">Educational tool only. Not financial advice.</footer>
+  <script src="../../assets/js/calculators.js"></script>
+</body>
+</html>
