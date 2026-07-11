@@ -5,7 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Prop Firm Tools, Funded Trader Rules, and Beginner Trading Q&A | PropFirmNotebook</title>
   <meta name="description" content="Free prop firm tools and short answers for funded trader evaluations, trading teams, drawdown rules, position sizing, payouts, and beginner trading risk.">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("pfn-theme-v2");
+        var theme = saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.dataset.theme = theme;
+      } catch (error) {}
+    })();
+  </script>
   <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/chatbot.css?v=20260710b">
+ <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
 </head>
 <body>
   <header class="site-header">
@@ -16,7 +29,7 @@
         <a href="tools/trailing-drawdown/index.html">Drawdown</a>
         <a href="tools/position-size/index.html">Position Size</a>
       </div>
-    </nav>
+    <button class="theme-switch" type="button" data-theme-toggle role="switch" aria-checked="false"><span class="theme-switch-icon" aria-hidden="true">☀</span><span class="theme-switch-icon" aria-hidden="true">☾</span><span class="theme-switch-thumb" aria-hidden="true"></span></button></nav>
   </header>
 
   <main>
@@ -169,5 +182,6 @@
   }
   </script>
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/chatbot-v3.js"></script>
 </body>
 </html>
