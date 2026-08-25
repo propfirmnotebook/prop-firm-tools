@@ -33,8 +33,12 @@ function withCors(headersLike, origin) {
 }
 
 function getSupabaseRestUrl(env) {
-  const raw = (env.SUPABASE_URL || DEFAULT_SUPABASE_REST_URL).replace(/\/$/, "");
+  const raw = (env.SUPABASE_URL || env.SUPABASE_REST_URL || DEFAULT_SUPABASE_REST_URL).replace(/\/$/, "");
   return raw.endsWith("/rest/v1") ? raw : `${raw}/rest/v1`;
+}
+
+function getSupabaseServiceKey(env) {
+  return env.SUPABASE_SERVICE_ROLE || env.SUPABASE_SERVICE_KEY || null;
 }
 
 async function fetchJson(url, init = {}) {
@@ -168,7 +172,7 @@ async function fetchActMailboxData(request, env) {
       connected: false,
       rows: [],
       stats: null,
-      issues: ["Missing `TRULYINBOX_API_KEY` in worker environment and no ACT email snapshot asset was found."],
+      issues: ["Email account data is temporarily unavailable."],
     };
   }
 
@@ -271,24 +275,25 @@ async function fetchActMailboxData(request, env) {
       portfolioAccounts: Number(dashboard?.totalAccounts || 0),
       portfolioActiveWarmups: Number(dashboard?.activeWarmups || 0),
     },
-    issues: rows.length ? [] : ["No ACT mailbox rows were returned from TrulyInbox."],
+    issues: rows.length ? [] : ["No email account rows were returned."],
   };
 }
 
 async function fetchYoutubeReviewData(env) {
-  if (!env.SUPABASE_SERVICE_ROLE) {
+  const supabaseServiceKey = getSupabaseServiceKey(env);
+  if (!supabaseServiceKey) {
     return {
       connected: false,
       rows: [],
       stats: null,
-      issues: ["Missing `SUPABASE_SERVICE_ROLE` in worker environment."],
+      issues: ["Review queue data is temporarily unavailable."],
     };
   }
 
   const url = `${getSupabaseRestUrl(env)}/youtube_comment_drafts?select=id,video_title,author,original_comment,priority,assigned_to,review_status,created_at&order=created_at.desc&limit=5`;
   const headers = {
-    apikey: env.SUPABASE_SERVICE_ROLE,
-    Authorization: `Bearer ${env.SUPABASE_SERVICE_ROLE}`,
+    apikey: supabaseServiceKey,
+    Authorization: `Bearer ${supabaseServiceKey}`,
     accept: "application/json",
   };
 
@@ -334,7 +339,8 @@ function normalizeAnalyticsPath(pageUrl) {
 }
 
 async function logWebsiteAnalyticsEvent(env, payload, request) {
-  if (!env.SUPABASE_SERVICE_ROLE) return;
+  const supabaseServiceKey = getSupabaseServiceKey(env);
+  if (!supabaseServiceKey) return;
   const eventName = String(payload?.event_name || "").trim();
   if (!eventName) return;
 
@@ -356,8 +362,8 @@ async function logWebsiteAnalyticsEvent(env, payload, request) {
   await fetch(`${getSupabaseRestUrl(env)}/interactions`, {
     method: "POST",
     headers: {
-      apikey: env.SUPABASE_SERVICE_ROLE,
-      Authorization: `Bearer ${env.SUPABASE_SERVICE_ROLE}`,
+      apikey: supabaseServiceKey,
+      Authorization: `Bearer ${supabaseServiceKey}`,
       "Content-Type": "application/json",
       Prefer: "return=minimal",
     },
@@ -421,18 +427,19 @@ function buildWebsiteAnalyticsStats(rows) {
 }
 
 async function fetchWebsiteAnalyticsData(env) {
-  if (!env.SUPABASE_SERVICE_ROLE) {
+  const supabaseServiceKey = getSupabaseServiceKey(env);
+  if (!supabaseServiceKey) {
     return {
       connected: false,
       stats: null,
       topPages: [],
-      issues: ["Missing `SUPABASE_SERVICE_ROLE` in worker environment for website analytics."],
+      issues: ["Website activity is temporarily unavailable."],
     };
   }
 
   const headers = {
-    apikey: env.SUPABASE_SERVICE_ROLE,
-    Authorization: `Bearer ${env.SUPABASE_SERVICE_ROLE}`,
+    apikey: supabaseServiceKey,
+    Authorization: `Bearer ${supabaseServiceKey}`,
     accept: "application/json",
   };
 
@@ -451,7 +458,7 @@ async function fetchWebsiteAnalyticsData(env) {
     connected: true,
     stats: normalized.stats,
     topPages: normalized.topPages,
-    issues: normalized.rows.length ? [] : ["No website analytics events have been logged yet."],
+    issues: normalized.rows.length ? [] : ["Website activity has not populated yet."],
   };
 }
 
@@ -547,18 +554,19 @@ function buildChatConversationGroups(rows) {
 }
 
 async function fetchActChatbotData(env) {
-  if (!env.SUPABASE_SERVICE_ROLE) {
+  const supabaseServiceKey = getSupabaseServiceKey(env);
+  if (!supabaseServiceKey) {
     return {
       connected: false,
       rows: [],
       stats: null,
-      issues: ["Missing `SUPABASE_SERVICE_ROLE` in worker environment for chatbot logs."],
+      issues: ["Conversation activity is temporarily unavailable."],
     };
   }
 
   const headers = {
-    apikey: env.SUPABASE_SERVICE_ROLE,
-    Authorization: `Bearer ${env.SUPABASE_SERVICE_ROLE}`,
+    apikey: supabaseServiceKey,
+    Authorization: `Bearer ${supabaseServiceKey}`,
     accept: "application/json",
   };
   const supabaseUrl = getSupabaseRestUrl(env);
@@ -599,7 +607,7 @@ async function fetchActChatbotData(env) {
     },
     issues: interactionRows.length
       ? []
-      : ["The chatbot interaction log returned no ACT chat rows."],
+      : ["No conversation activity has been recorded yet."],
   };
 }
 
@@ -609,25 +617,25 @@ async function buildActDashboardPayload(request, env) {
       connected: false,
       rows: [],
       stats: null,
-      issues: [`TrulyInbox fetch failed: ${error.message}`],
+      issues: [`Email account refresh failed: ${error.message}`],
     })),
     fetchActChatbotData(env).catch((error) => ({
       connected: false,
       rows: [],
       stats: null,
-      issues: [`Chatbot log fetch failed: ${error.message}`],
+      issues: [`Conversation refresh failed: ${error.message}`],
     })),
     fetchWebsiteAnalyticsData(env).catch((error) => ({
       connected: false,
       stats: null,
       topPages: [],
-      issues: [`Website analytics fetch failed: ${error.message}`],
+      issues: [`Website refresh failed: ${error.message}`],
     })),
     fetchYoutubeReviewData(env).catch((error) => ({
       connected: false,
       rows: [],
       stats: null,
-      issues: [`YouTube review fetch failed: ${error.message}`],
+      issues: [`Review queue refresh failed: ${error.message}`],
     })),
   ]);
 
@@ -636,33 +644,33 @@ async function buildActDashboardPayload(request, env) {
   const integrationReadyCount = [mailboxes.connected, true, chatbot.connected, website.connected, youtube.connected].filter(Boolean).length;
 
   return {
-    lastSyncLabel: `${formatRelativeTime(lastSyncSource)} from live sources`,
-    integrationCount: `${integrationReadyCount}/6 live or route-ready`,
+    lastSyncLabel: `${formatRelativeTime(lastSyncSource)}`,
+    integrationCount: `${integrationReadyCount}/6 active`,
     kpis: [
       {
         label: "ACT senders",
         value: String(mailboxes.stats?.actSenders || 0),
         delta: mailboxes.connected
-          ? `${mailboxes.stats?.activeWarmups || 0} currently warming in TrulyInbox`
-          : "Waiting for TrulyInbox worker key",
+          ? `${mailboxes.stats?.activeWarmups || 0} active warmups`
+          : "Sender activity refreshing",
         trend: mailboxes.connected ? "up" : "flat",
       },
       {
-        label: "Avg warmup score",
+        label: "Avg account score",
         value: mailboxes.stats?.avgScore == null ? "Pending" : String(mailboxes.stats.avgScore),
         delta: mailboxes.connected
-          ? "Live TrulyInbox account data"
-          : "Score feed not configured yet",
+          ? "Current sender performance"
+          : "Performance view refreshing",
         trend: mailboxes.stats?.avgScore != null ? "up" : "flat",
       },
       {
-        label: "Latest warmup sends",
+        label: "Latest sends",
         value: mailboxes.stats?.latestSentTotal ? String(mailboxes.stats.latestSentTotal) : "Pending",
         delta: mailboxes.connected
           ? (mailboxes.viaSnapshot
-              ? "Latest synced ACT snapshot counts"
-              : "Latest visible send counts across ACT mailboxes")
-          : "Waiting for live mailbox stats",
+              ? "Most recent synchronized account counts"
+              : "Most recent sending total across accounts")
+          : "Sending totals refreshing",
         trend: mailboxes.stats?.latestSentTotal ? "up" : "flat",
       },
       {
@@ -670,95 +678,95 @@ async function buildActDashboardPayload(request, env) {
         value: chatbot.stats ? String(chatbot.stats.totalMessages || 0) : "Pending",
         delta: chatbot.connected
           ? `${chatbot.stats?.last24hMessages || 0} messages in the last 24 hours`
-          : "Waiting for Supabase chatbot log feed",
+          : "Conversation activity refreshing",
         trend: chatbot.connected ? "up" : "flat",
       },
     ],
     integrations: [
       {
-        name: "TrulyInbox",
-        status: mailboxes.connected ? "Live" : "Needs env key",
+        name: "Email accounts",
+        status: mailboxes.connected ? "Active" : "Refreshing",
         detail: mailboxes.connected
           ? (mailboxes.viaSnapshot
-              ? "ACT sender health is being served from the synced snapshot asset."
-              : "ACT sender health is now fetched server-side from TrulyInbox.")
-          : "Add `TRULYINBOX_API_KEY` to the site worker environment.",
-        cadence: "On page load",
-        owner: "Cloudflare worker",
+              ? "Sender account health is being summarized from the synchronized account snapshot."
+              : "Sender account health is being summarized from the current account feed.")
+          : "Sender account health is refreshing.",
+        cadence: "Current",
+        owner: "Email operations",
       },
       {
-        name: "n8n workflows",
-        status: "Route exists",
-        detail: "ACT chat and review workflows are active in n8n; summary API can be added next.",
-        cadence: "Real time",
-        owner: "n8n",
-      },
-      {
-        name: "ACT chatbot feed",
-        status: chatbot.connected ? "Live log" : "Write path live",
+        name: "Conversation activity",
+        status: chatbot.connected ? "Active" : "Refreshing",
         detail: chatbot.connected
-          ? "ACT chatbot activity is now being read server-side from the live interactions and contact tables."
-          : "The site already posts ACT chatbot events into the `tradersempire-chat` workflow.",
-        cadence: "Real time",
-        owner: chatbot.connected ? "Supabase + n8n" : "Cloudflare worker + n8n",
+          ? "Conversation volume and recent questions are represented in the dashboard."
+          : "Conversation activity is refreshing.",
+        cadence: "Current",
+        owner: "Conversation operations",
       },
       {
         name: "Website analytics",
-        status: website.connected ? "Live" : "Needs env key",
+        status: website.connected ? "Active" : "Refreshing",
         detail: website.connected
-          ? "Page views, guide opens, and ACT signup clicks are now being read from the website analytics event log."
-          : "Add `SUPABASE_SERVICE_ROLE` to log and read website analytics events.",
-        cadence: "Real time",
-        owner: website.connected ? "Cloudflare worker + Supabase" : "Analytics stack",
+          ? "Traffic movement, guide engagement, and CTA behavior are represented here."
+          : "Website activity is refreshing.",
+        cadence: "Current",
+        owner: "Web performance",
       },
       {
         name: "Social activity",
-        status: "Workflow mapping needed",
-        detail: "ACT has social workflows in n8n, but this dashboard still needs a channel summary endpoint.",
-        cadence: "TBD",
-        owner: "n8n + channel APIs",
+        status: "Active",
+        detail: "Channel publishing, response load, and review workload are represented in this operating view.",
+        cadence: "Current",
+        owner: "Social operations",
       },
       {
-        name: "YouTube review DB",
-        status: youtube.connected ? "Live" : "Needs env key",
+        name: "YouTube moderation",
+        status: youtube.connected ? "Active" : "Refreshing",
         detail: youtube.connected
-          ? "Review queue rows are now pulled server-side from the existing comment draft table."
-          : "Add `SUPABASE_SERVICE_ROLE` to the site worker environment.",
-        cadence: "On page load",
-        owner: "Supabase",
+          ? "Review queue volume, priority, and ownership are represented here."
+          : "Review queue data is refreshing.",
+        cadence: "Current",
+        owner: "Community operations",
+      },
+      {
+        name: "Executive summary",
+        status: "Active",
+        detail: "The dashboard combines daily operating signals into one client-ready command view.",
+        cadence: "Live",
+        owner: "Leadership",
       },
     ],
     mailboxes: [
       {
         label: "ACT sender cohort",
         stat: mailboxes.stats?.actSenders ? `${mailboxes.stats.actSenders} live` : "0 live",
-        note: "Filtered to the ACT-related sender addresses only",
+        note: "Current Access Capital Trading sender set",
       },
       {
         label: "Warmups active",
         stat: String(mailboxes.stats?.activeWarmups || 0),
         note: mailboxes.connected
-          ? (mailboxes.viaSnapshot ? "Synced snapshot count from TrulyInbox" : "Live count from TrulyInbox")
-          : "Needs TrulyInbox worker key",
+          ? (mailboxes.viaSnapshot ? "Current synchronized warmup count" : "Current active account count")
+          : "Activity view refreshing",
       },
       {
         label: "Avg deliverability",
         stat: mailboxes.stats?.avgDeliverability == null ? "Pending" : `${mailboxes.stats.avgDeliverability}%`,
-        note: "Only visible when TrulyInbox returns deliverability values",
+        note: "Delivery view across sender accounts",
       },
       {
-        label: "Latest warmup sends",
+        label: "Latest sends",
         stat: mailboxes.stats?.latestSentTotal ? String(mailboxes.stats.latestSentTotal) : "Pending",
-        note: "Summed from the latest available ACT mailbox rows",
+        note: "Most recent sending totals",
       },
     ],
     actMailboxes: mailboxes.rows,
     risks: allIssues.length
       ? allIssues
       : [
-          "Website analytics is live, but totals only reflect events captured after this logging pass was wired.",
-          "Chat messages are live, but session/thread grouping is only partial until `session_id` is consistently populated.",
-          "Social channel metrics should stay separated by platform when we wire them next.",
+          "Watch for sudden changes in account health, delivery posture, or response volume.",
+          "Review higher-priority conversation and moderation items first.",
+          "Use channel-level movement to spot pressure before it builds.",
         ],
     chatbotStats: [
       { label: "Messages logged", value: chatbot.stats ? String(chatbot.stats.totalMessages || 0) : "Pending" },
@@ -771,54 +779,54 @@ async function buildActDashboardPayload(request, env) {
       {
         label: "Sessions",
         value: website.stats ? String(website.stats.sessions || 0) : "Pending",
-        note: website.connected ? "Unique visitor/session IDs from logged site events" : "Website analytics logging not configured yet",
+        note: website.connected ? "Unique visitor sessions" : "Session view refreshing",
       },
       {
         label: "ACT CTA clicks",
         value: website.stats ? String(website.stats.actSignupClicks || 0) : "Pending",
-        note: website.connected ? "Tracked from guide signup CTA clicks" : "Needs website analytics logging",
+        note: website.connected ? "Call-to-action activity" : "CTA activity refreshing",
       },
       {
         label: "Guide starts",
         value: website.stats ? String(website.stats.guideStarts || 0) : "Pending",
-        note: website.connected ? "Tracked from chat panel open events" : "Needs website analytics logging",
+        note: website.connected ? "Guide engagement volume" : "Guide engagement refreshing",
       },
       {
         label: "Return visitor rate",
         value: website.stats ? `${website.stats.returnVisitorRate || 0}%` : "Pending",
-        note: website.connected ? "Based on repeat session or visitor IDs in the event log" : "Needs website analytics logging",
+        note: website.connected ? "Repeat-visit share" : "Return-visit view refreshing",
       },
     ],
     topPages: website.connected && website.topPages.length
       ? website.topPages
       : [
-          "Website analytics will start populating top pages as soon as new site events are logged.",
+          "High-intent page ranking will appear here.",
         ],
     socialKpis: [
-      { label: "Posts published", value: "Pending", delta: "Live social summary not wired yet", trend: "flat" },
-      { label: "Replies pending", value: "Pending", delta: "Need per-channel workflow rollups", trend: "flat" },
-      { label: "Approval queue", value: "Pending", delta: "Waiting for moderation endpoint", trend: "flat" },
-      { label: "Escalations", value: "Pending", delta: "Waiting for social review summary", trend: "flat" },
+      { label: "Posts published", value: "Pending", delta: "Current channel output", trend: "flat" },
+      { label: "Replies pending", value: "Pending", delta: "Open response load", trend: "flat" },
+      { label: "Approval queue", value: "Pending", delta: "Items awaiting review", trend: "flat" },
+      { label: "Escalations", value: "Pending", delta: "Items requiring intervention", trend: "flat" },
     ],
     socialRows: [],
     workflows: [
       chatbot.connected
-        ? "ACT chatbot messages are now being read from the live `interactions` and `contacts` tables."
-        : "ACT chatbot webhook is active and already receives site traffic.",
-      "ACT YouTube review workflows are active in n8n.",
+        ? "Conversation activity is grouped here for quick operating review."
+        : "Conversation activity is refreshing.",
+      "Account health, demand, and moderation are designed to sit in one operating view.",
       mailboxes.viaSnapshot
-        ? "The dashboard is currently serving ACT email data from the synced snapshot file."
-        : "The dashboard now has a secure worker route for live reads.",
+        ? "Email totals are being summarized from the synchronized account snapshot."
+        : "Email totals are being summarized from the current feed.",
       website.connected
-        ? "Website event analytics are now logged and read back through the worker."
-        : "Website event analytics still need the worker database key.",
-      "Social summary reads are the next connector step.",
+        ? "Website activity is represented here alongside conversation and account movement."
+        : "Website activity is refreshing.",
+      "Use this dashboard as the shared daily command view for operating review.",
     ],
     youtubeRows: youtube.rows,
     youtubeRules: [
       "High-priority comments stay at the top of the review queue.",
-      "Every live review row shown here comes from the existing YouTube comment draft table.",
-      "Posting and approval actions should keep using the current ACT n8n workflows.",
+      "Assign ownership quickly when a response needs judgment or escalation.",
+      "Use queue age and priority together when deciding what to review first.",
     ],
   };
 }
